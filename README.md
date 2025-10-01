@@ -2,6 +2,8 @@
 
 A privacy-first AI platform that provides OpenAI-compatible APIs for text and image generation. The platform emphasizes user privacy, open-source models, and uncensored AI responses.
 
+**Complete API Reference**: For detailed information about all endpoints, parameters, and functionality, see our [comprehensive API reference](Venice.ai API reference KNOWLEDGE BASE.md).
+
 ## Features
 
 - **Privacy-First Architecture**: Venice does not utilize or store user data for any purposes
@@ -76,9 +78,13 @@ print(response.choices[0].message.content)
 - `GET /api/v1/models/traits` - Get model traits
 - `GET /api/v1/image/styles` - List available image styles
 
+## Documentation
+
+- **Comprehensive API Reference**: [Venice.ai API Reference KNOWLEDGE BASE.md](Venice.ai API reference KNOWLEDGE BASE.md)
+- **Online Documentation**: https://docs.venice.ai
+- **API Specification**: https://api.venice.ai/doc/api/swagger.yaml
+- **Terms of Service**: https://venice.ai/legal/tos
+
 ## Support
 
-- **Documentation**: https://docs.venice.ai
-- **API Specification**: https://api.venice.ai/doc/api/swagger.yaml
 - **Support Email**: support@venice.ai
-- **Terms of Service**: https://venice.ai/legal/tos
