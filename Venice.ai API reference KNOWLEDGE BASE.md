@@ -221,7 +221,7 @@ Content can include:
   "type": "text",
   "data": [
     {
-      "id": "model-id",
+      "id": "llama-3.2-3b",
       "object": "model",
       "created": 1727966436,
       "owned_by": "venice.ai",
@@ -245,21 +245,26 @@ Content can include:
           "top_p": {
             "default": 0.9
           }
-        }
-      },
-      "modelSource": "https://huggingface.co/...",
-      "offline": false,
-      "pricing": {
-        "input": {
-          "usd": 0.15,
-          "vcu": 1.5
         },
-        "output": {
-          "usd": 0.6,
-          "vcu": 6
-        }
-      },
-      "traits": ["fastest"]
+        "name": "Llama 3.2 3B",
+        "modelSource": "https://huggingface.co/meta-llama/Llama-3.2-3B",
+        "offline": false,
+        "pricing": {
+          "input": {
+            "usd": 0.15,
+            "vcu": 1.5,
+            "diem": 0.15
+          },
+          "output": {
+            "usd": 0.6,
+            "vcu": 6,
+            "diem": 0.6
+          }
+        },
+        "traits": [
+          "fastest"
+        ]
+      }
     }
   ]
 }
@@ -267,17 +272,47 @@ Content can include:
 
 **Model Capabilities** (Complete List):
 - `optimizedForCode`: Boolean - Optimized for code generation
-- `quantization`: String - Quantization method (e.g., "fp16")
+- `quantization`: String - Quantization method (fp8, fp16, bf16, or not-available)
 - `supportsFunctionCalling`: Boolean - Tool use support
 - `supportsReasoning`: Boolean - Thinking/reasoning capabilities
 - `supportsResponseSchema`: Boolean - JSON schema validation
 - `supportsVision`: Boolean - Image input support
 - `supportsWebSearch`: Boolean - Web search integration
 - `supportsLogProbs`: Boolean - Log probability output
+- `beta`: Boolean - Is the model in beta?
 
 **Model Constraints**:
 - **Text Models**: temperature (default), top_p (default)
 - **Image Models**: promptCharacterLimit, steps (default, max), widthHeightDivisor
+- **Audio Models**: input (pricing per million input characters)
+- **Additional Model Types**: embedding, tts, upscale, inpaint, video
+
+### Complete List of Available Text Models
+
+The following is a comprehensive list of all currently available text models with their specifications:
+
+| Model ID | Name | Context Tokens | Capabilities | Pricing (Input/Output) | Traits |
+|----------|------|----------------|--------------|------------------------|---------|
+| venice-uncensored | Venice Uncensored 1.1 | 32,768 | Function calling: No, Reasoning: No, Vision: No, Web Search: Yes, LogProbs: Yes | $0.20/$0.90 per million tokens | most_uncensored |
+| qwen3-4b | Venice Small | 40,960 | Function calling: Yes, Reasoning: Yes, Vision: No, Web Search: Yes, LogProbs: Yes | $0.05/$0.15 per million tokens | - |
+| mistral-31-24b | Venice Medium | 131,072 | Function calling: Yes, Reasoning: No, Vision: Yes, Web Search: Yes, LogProbs: No | $0.50/$2.00 per million tokens | default_vision |
+| qwen3-235b | Venice Large 1.1 | 131,072 | Function calling: Yes, Reasoning: Yes, Vision: No, Web Search: Yes, LogProbs: Yes | $0.90/$4.50 per million tokens | default_code |
+| llama-3.2-3b | Llama 3.2 3B | 131,072 | Function calling: Yes, Reasoning: No, Vision: No, Web Search: Yes, LogProbs: Yes | $0.15/$0.60 per million tokens | fastest |
+| llama-3.3-70b | Llama 3.3 70B | 65,536 | Function calling: Yes, Reasoning: No, Vision: No, Web Search: Yes, LogProbs: No | $0.70/$2.80 per million tokens | function_calling_default, default |
+
+### Complete List of Available Image Models
+
+The following is a comprehensive list of all currently available image models with their specifications:
+
+| Model ID | Name | Prompt Limit | Steps (Default/Max) | Width/Height Divisor | Pricing (Generation/Upscale) | Traits | Notes |
+|----------|------|--------------|-------------------|---------------------|----------------------------|---------|-------|
+| venice-sd35 | Venice SD35 | 1,500 chars | 25/30 | 16 | $0.01 per image / $0.02 (2x), $0.08 (4x) | default, eliza-default | - |
+| hidream | HiDream | 1,500 chars | 20/50 | 8 | $0.01 per image / $0.02 (2x), $0.08 (4x) | - | - |
+| flux-dev | FLUX Standard | 2,048 chars | 25/30 | 8 | $0.01 per image / $0.02 (2x), $0.08 (4x) | highest_quality | - |
+| flux-dev-uncensored | FLUX Custom | 2,048 chars | 25/30 | 8 | $0.01 per image / $0.02 (2x), $0.08 (4x) | - | - |
+| lustify-sdxl | Lustify SDXL | 1,500 chars | 20/50 | 8 | $0.01 per image / $0.02 (2x), $0.08 (4x) | - | - |
+| qwen-image | Qwen Image | 1,500 chars | 8/8 | 8 | $0.01 per image / $0.02 (2x), $0.08 (4x) | - | - |
+| wai-Illustrious | Anime (WAI) | 1,500 chars | 25/30 | 16 | $0.01 per image / $0.02 (2x), $0.08 (4x) | - | - |
 
 ### 3. Model Traits API
 
@@ -455,7 +490,7 @@ Content can include:
 **Error Responses**:
 - `400`: Invalid request parameters
 - `401`: Authentication failed  
-- `402`: Insufficient USD or VCU balance
+- `402`: Insufficient USD or Diem balance
 - `415`: Invalid request content-type
 - `429`: Rate limit exceeded
 
@@ -528,7 +563,7 @@ Content-Type: image/jpeg
 **Error Responses**:
 - `400`: Invalid request parameters
 - `401`: Authentication failed
-- `402`: Insufficient USD or VCU balance
+- `402`: Insufficient USD or Diem balance
 - `415`: Invalid request content-type
 - `429`: Rate limit exceeded
 - `500`: Inference processing failed
@@ -610,7 +645,7 @@ Content-Type: image/jpeg
 **Error Responses**:
 - `400`: Invalid request parameters
 - `401`: Authentication failed
-- `402`: Insufficient USD or VCU balance
+- `402`: Insufficient USD or Diem balance
 - `403`: Unauthorized access
 - `429`: Rate limit exceeded
 
@@ -647,7 +682,16 @@ Content-Type: image/jpeg
 - `bf_alice`, `bf_emma`, `bf_lily`
 
 **British Male (bm_)**:
-- `bm_daniel`, `bm_fable`, `bm_george`
+- `bm_daniel`, `bm_fable`, `bm_george`, `bm_lewis`
+
+**Chinese Female (zf_)**:
+- `zf_xiaobei`, `zf_xiaoni`, `zf_xiaoxiao`, `zf_xiaoyi`
+
+**Chinese Male (zm_)**:
+- `zm_yunjian`, `zm_yunxi`, `zm_yunxia`, `zm_yunyang`
+
+**Other Voices**:
+- `ff_siwis`, `hf_alpha`, `hf_beta`, `hm_omega`, `hm_psi`, `if_sara`, `im_nicola`, `jf_alpha`, `jf_gongitsune`, `jf_nezumi`, `jf_tebukuro`, `jm_kumo`, `pf_dora`, `pm_alex`, `pm_santa`, `ef_dora`, `em_alex`, `em_santa`
 
 **Response Formats**:
 - `mp3` (default)
@@ -682,7 +726,7 @@ Content-Type: image/jpeg
 **Error Responses**:
 - `400`: Invalid request parameters
 - `401`: Authentication failed
-- `402`: Insufficient USD or VCU balance
+- `402`: Insufficient USD or Diem balance
 - `403`: Unauthorized access
 - `415`: Invalid request content-type
 - `429`: Rate limit exceeded
@@ -777,12 +821,12 @@ Content-Type: image/jpeg
       "lastUsedAt": "2023-10-01T12:00:00Z",
       "consumptionLimits": {
         "usd": 50,
-        "vcu": 100
+        "diem": 10
       },
       "usage": {
         "trailingSevenDays": {
           "usd": "10.2424",
-          "vcu": "42.2315"
+          "diem": "4.2231"
         }
       }
     }
@@ -833,7 +877,7 @@ Content-Type: image/jpeg
 **Parameters**: May include date ranges and filtering options
 
 **Response**: Detailed billing and usage information including:
-- Current USD and VCU balances
+- Current USD and Diem balances
 - Usage statistics by time period
 - Cost breakdowns by service type
 - Rate limit consumption
@@ -969,7 +1013,7 @@ const completionStream = await openAI.chat.completions.create({
 
 ### Paid Tier Rate Limits
 
-Rate limits apply to users who have purchased API credits or staked VVV to gain VCU.
+Rate limits apply to users who have purchased API credits or staked VVV to gain Diem.
 
 **Important Note**: Venice continuously monitors usage and adds compute capacity to the network. Rate limits are reviewed and adjusted as needed. Contact support@venice.ai if you consistently hit rate limits.
 
@@ -1015,7 +1059,7 @@ Monitor your API utilization and remaining requests by evaluating the following 
 | `x-ratelimit-limit-tokens` | The number of total (prompt + completion) tokens used within a 1 minute sliding window |
 | `x-ratelimit-remaining-tokens` | The remaining number of total tokens that can be used during the evaluation period |
 | `x-ratelimit-reset-tokens` | The duration of time in seconds until the token rate limit resets |
-| `x-venice-balance-vcu` | The user's VCU balance before the request has been processed |
+| `x-venice-balance-diem` | The user's Diem balance before the request has been processed |
 | `x-venice-balance-usd` | The user's USD balance before the request has been processed |
 
 ## Error Handling (Complete & Verified)
