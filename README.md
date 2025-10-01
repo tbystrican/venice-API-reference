@@ -2,7 +2,7 @@
 
 A privacy-first AI platform that provides OpenAI-compatible APIs for text and image generation. The platform emphasizes user privacy, open-source models, and uncensored AI responses.
 
-**Complete API Reference**: For detailed information about all endpoints, parameters, and functionality, see our [comprehensive API reference](Venice.ai API reference KNOWLEDGE BASE.md).
+**Complete API Reference**: For detailed information about all endpoints, parameters, and functionality, see our [comprehensive API reference](Venice.ai%20API%20reference%20KNOWLEDGE%20BASE.md).
 
 ## Features
 
@@ -80,7 +80,7 @@ print(response.choices[0].message.content)
 
 ## Documentation
 
-- **Comprehensive API Reference**: [Venice.ai API Reference KNOWLEDGE BASE.md](Venice.ai API reference KNOWLEDGE BASE.md)
+- **Comprehensive API Reference**: [Venice.ai API Reference KNOWLEDGE BASE.md](Venice.ai%20API%20reference%20KNOWLEDGE%20BASE.md)
 - **Online Documentation**: https://docs.venice.ai
 - **API Specification**: https://api.venice.ai/doc/api/swagger.yaml
 - **Terms of Service**: https://venice.ai/legal/tos
