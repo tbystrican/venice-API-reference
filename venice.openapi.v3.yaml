@@ -2,25 +2,80 @@ externalDocs:
   description: Venice.ai API documentation
   url: https://docs.venice.ai
 info:
-  description: The Venice.ai API.
+  description: |
+    # Venice.ai API
+    
+    The Venice.ai API provides access to state-of-the-art AI models with a focus on privacy and freedom.
+    
+    ## Key Features
+    
+    - **Private AI**: Zero data retention policy - your conversations are never stored
+    - **Uncensored Models**: Access to both standard and uncensored model variants
+    - **OpenAI Compatible**: Drop-in replacement for OpenAI API endpoints
+    - **Multi-Modal**: Support for text, image generation, vision, audio, and embeddings
+    - **Advanced Features**: Function calling, web search integration, streaming responses
+    - **Custom Characters**: Create and interact with custom AI personas
+    
+    ## Getting Started
+    
+    1. Sign up at https://venice.ai to get your API key
+    2. Use Bearer authentication with your API key
+    3. Make requests to https://api.venice.ai/api/v1 endpoints
+    4. Refer to the comprehensive examples and documentation below
+    
+    ## Privacy & Security
+    
+    Venice.ai is committed to user privacy. All API requests are processed without storing conversation data.
+    Your API keys should be kept secure and never shared publicly.
+    
+    For detailed documentation, visit https://docs.venice.ai
   termsOfService: https://venice.ai/legal/tos
   title: Venice.ai API
   version: "20250929.201934"
+  contact:
+    name: Venice.ai Support
+    email: support@venice.ai
+    url: https://venice.ai
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
 openapi: 3.0.0
 security:
   - BearerAuth: []
 servers:
   - url: https://api.venice.ai/api/v1
 tags:
-  - description: Given a list of messages comprising a conversation, the model will
-      return a response.
+  - description: |
+      Chat completions allow you to have conversations with AI models. 
+      Supports streaming, function calling, web search, vision, and custom characters.
     name: Chat
-  - description: List and describe the various models available in the API.
+  - description: |
+      List and describe the various models available in the API, including their capabilities,
+      constraints, pricing, and supported features.
     name: Models
-  - description: Generate and manipulate images using AI models.
+  - description: |
+      Generate and manipulate images using AI models. Supports text-to-image generation,
+      image editing, upscaling, and style transfer.
     name: Image
-  - description: List and retrieve character information for use in completions.
+  - description: |
+      List and retrieve character information for use in completions. Characters provide
+      custom AI personas with unique personalities and knowledge bases.
     name: Characters
+  - description: |
+      Manage API keys, including creation, deletion, rate limits, and consumption tracking.
+    name: API Keys
+  - description: |
+      Generate text embeddings for semantic search, clustering, and other NLP tasks.
+    name: Embeddings
+  - description: |
+      Convert text to speech using various voice models and languages.
+    name: Audio
+  - description: |
+      Text-to-speech synthesis endpoints for generating audio from text input.
+    name: Speech
+  - description: |
+      Track API usage, consumption, and billing information.
+    name: Billing
 components:
   securitySchemes:
     BearerAuth:
