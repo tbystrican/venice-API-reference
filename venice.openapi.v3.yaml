@@ -76,6 +76,10 @@ tags:
   - description: |
       Track API usage, consumption, and billing information.
     name: Billing
+  - description: |
+      Preview endpoints that are in beta or experimental stages. These features
+      may change or be removed in future versions. Use with caution in production.
+    name: Preview
 components:
   securitySchemes:
     BearerAuth:

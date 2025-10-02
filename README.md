@@ -123,6 +123,26 @@ docker run -p 8080:8080 -e SWAGGER_JSON=/tmp/spec.yaml \
 npx @redocly/cli build-docs venice.openapi.v3.yaml -o docs/index.html
 ```
 
+### Run Tests
+
+The repository includes automated tests to validate the OpenAPI specification:
+
+```bash
+# Run comprehensive test suite
+python3 test_openapi_spec.py
+
+# Run specific bug fix test (Preview tag)
+python3 test_preview_tag_bug.py
+```
+
+**Test Coverage:**
+- File existence and YAML validity
+- OpenAPI version compliance
+- Required sections (info, servers, paths)
+- Security scheme definitions
+- Tag definitions and consistency
+- Component schema validation
+
 ## For Developers
 
 ### Understanding the Structure
