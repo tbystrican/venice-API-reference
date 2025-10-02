@@ -24,12 +24,54 @@
 
 ---
 
+## Table of Contents
+
+- [TL;DR](#tldr)
+- [What is This?](#what-is-this)
+- [Contents](#contents)
+- [Quick Start](#quick-start)
+  - [Validate in Browser](#validate-in-browser-zero-install)
+  - [Local Validation](#local-validation-recommended)
+  - [Local Preview with Swagger UI](#local-preview-with-swagger-ui)
+- [For Developers](#for-developers)
+  - [Understanding the Structure](#understanding-the-structure)
+  - [Making Changes](#making-changes)
+  - [Contributing](#contributing)
+- [Generate SDKs](#generate-sdks)
+- [Mock Server](#mock-server-optional)
+- [Technical Specifications](#-technical-specifications)
+- [Usage Instructions](#usage-instructions)
+- [Quality Metrics](#quality-metrics)
+- [Additional Resources](#additional-resources)
+
+---
+
 ## TL;DR
 
 -   **Spec lives in**: `venice.openapi.v3.yaml`
 -   **Lint and preview locally** using the provided `lint.sh` script.
 -   **Generate SDKs** via `openapi-generator`
 -   **Publish docs** with your preferred pipeline (Swagger UI / Redoc)
+
+---
+
+## What is This?
+
+This repository contains the **official OpenAPI 3.0.0 specification** for the Venice.ai API. The specification serves as:
+
+- 📚 **Single Source of Truth**: Canonical documentation for all API endpoints, parameters, and responses
+- 🔧 **SDK Generation**: Input for generating client libraries in multiple programming languages
+- 📖 **Interactive Documentation**: Source for Swagger UI, Redoc, and other API documentation tools
+- ✅ **Validation**: Reference for validating API requests and responses
+- 🤝 **Integration Guide**: Complete reference for developers integrating with Venice.ai
+
+### Key Benefits
+
+- **OpenAI Compatible**: Drop-in replacement for OpenAI API clients
+- **Privacy Focused**: Zero data retention - your data is never stored
+- **Comprehensive**: Covers all Venice.ai API features including chat, images, audio, embeddings, and more
+- **Production Ready**: Fully validated and tested specification
+- **Well Documented**: Extensive examples, descriptions, and code samples
 
 ---
 
@@ -80,6 +122,148 @@ docker run -p 8080:8080 -e SWAGGER_JSON=/tmp/spec.yaml \
 # Option B: Redoc (static)
 npx @redocly/cli build-docs venice.openapi.v3.yaml -o docs/index.html
 ```
+
+### Run Tests
+
+The repository includes automated tests to validate the OpenAPI specification:
+
+```bash
+# Run comprehensive test suite
+python3 test_openapi_spec.py
+
+# Run specific bug fix test (Preview tag)
+python3 test_preview_tag_bug.py
+```
+
+**Test Coverage:**
+- File existence and YAML validity
+- OpenAPI version compliance
+- Required sections (info, servers, paths)
+- Security scheme definitions
+- Tag definitions and consistency
+- Component schema validation
+
+## For Developers
+
+### Understanding the Structure
+
+The OpenAPI specification is organized into several key sections:
+
+#### 1. **Info Section** (`info`)
+Contains metadata about the API including title, version, description, and contact information.
+
+#### 2. **Security** (`security`, `components.securitySchemes`)
+Defines authentication methods. Venice.ai uses Bearer token authentication with JWT format.
+
+```yaml
+# In your requests:
+Authorization: Bearer YOUR_API_KEY
+```
+
+#### 3. **Tags** (`tags`)
+Organizes endpoints into logical groups:
+- **Chat**: Conversational AI endpoints
+- **Models**: Model listing and information
+- **Image**: Image generation and manipulation
+- **Characters**: Custom AI personas
+- **API Keys**: Key management
+- **Embeddings**: Text embeddings
+- **Audio/Speech**: Text-to-speech
+- **Billing**: Usage tracking
+
+#### 4. **Components** (`components.schemas`)
+Reusable schema definitions for requests and responses. These are referenced throughout the spec using `$ref`.
+
+#### 5. **Paths** (`paths`)
+The actual API endpoints with their:
+- **Operations**: GET, POST, DELETE, etc.
+- **Parameters**: Query, path, and header parameters
+- **Request Bodies**: Expected input schemas
+- **Responses**: Possible response codes and schemas
+- **Examples**: Request and response examples
+- **Code Samples**: Usage examples in multiple languages
+
+### Making Changes
+
+When modifying the specification:
+
+1. **Edit `venice.openapi.v3.yaml`** directly
+2. **Follow OpenAPI 3.0.0 standards** - refer to [OpenAPI Specification](https://spec.openapis.org/oas/v3.0.0)
+3. **Validate frequently** - run `./lint.sh` after each change
+4. **Test your changes** - preview in Swagger UI or Redoc
+5. **Check examples** - ensure all examples are valid and realistic
+
+#### Common Tasks
+
+**Adding a new endpoint:**
+```yaml
+paths:
+  /your/new/endpoint:
+    post:
+      summary: Brief description
+      description: Detailed explanation
+      tags:
+        - YourTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/YourSchema'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YourResponseSchema'
+```
+
+**Adding a new schema:**
+```yaml
+components:
+  schemas:
+    YourSchema:
+      type: object
+      properties:
+        field_name:
+          type: string
+          description: What this field represents
+          example: "example value"
+      required:
+        - field_name
+```
+
+**Adding code samples:**
+```yaml
+x-codeSamples:
+  - lang: 'Python'
+    label: 'Basic Example'
+    source: |
+      import requests
+      
+      response = requests.post(
+          'https://api.venice.ai/api/v1/your/endpoint',
+          headers={'Authorization': 'Bearer {VENICE_API_KEY}'},
+          json={'field': 'value'}
+      )
+```
+
+### Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
+
+- Setting up your development environment
+- Testing changes
+- Submitting pull requests
+- Code style and documentation standards
+
+**Quick contribution checklist:**
+- [ ] Fork the repository
+- [ ] Create a feature branch
+- [ ] Make your changes
+- [ ] Run `./lint.sh` to validate
+- [ ] Test in Swagger UI or Redoc
+- [ ] Submit a pull request with clear description
 
 ## Generate SDKs
 
@@ -247,7 +431,35 @@ x-tagGroups:
 - **Comprehensive Coverage**: All major Venice features documented
 - **Best Practices**: Follows OpenAPI 3.0.0 standards and conventions
 
+## Additional Resources
+
+### Documentation
+- **Official API Docs**: https://docs.venice.ai
+- **Venice.ai Platform**: https://venice.ai
+- **OpenAPI Specification**: https://spec.openapis.org/oas/v3.0.0
+
+### Tools
+- **Swagger Editor**: https://editor.swagger.io - Online editor and validator
+- **Redocly CLI**: https://redocly.com/docs/cli - Advanced linting and documentation
+- **Spectral**: https://stoplight.io/open-source/spectral - OpenAPI linter
+- **OpenAPI Generator**: https://openapi-generator.tech - SDK generation tool
+
+### Community & Support
+- **Discord Community**: Join for support and updates
+- **GitHub Issues**: Report bugs or request features
+- **Support Email**: support@venice.ai
+
+### Related Files
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
+- [Venice.ai API reference KNOWLEDGE BASE.md](Venice.ai%20API%20reference%20KNOWLEDGE%20BASE.md) - Comprehensive API knowledge base
+
+### API Version Information
+- **Current OpenAPI Version**: 3.0.0
+- **API Version**: 20250929.201934
+- **Last Updated**: 2025-09-26
+
 ---
 
-**Created**: 2025-09-26  
-**Version**: 3.0.0
+**Maintained by**: [Fayeblade1488](https://github.com/Fayeblade1488)  
+**License**: MIT  
+**Repository**: [venice-API-reference](https://github.com/Fayeblade1488/venice-API-reference)
