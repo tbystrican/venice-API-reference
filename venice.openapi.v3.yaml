@@ -535,6 +535,7 @@ components:
                 json_schema:
                   type: object
                   additionalProperties:
+                    type: object
                     nullable: true
                 type:
                   type: string
@@ -607,6 +608,7 @@ components:
                   parameters:
                     type: object
                     additionalProperties:
+                      type: object
                       nullable: true
                   strict:
                     type: boolean
@@ -1342,9 +1344,9 @@ components:
             notes: API Inference
             pricePerUnitUsd: 0.1
             sku: venice-sd35-image-unit
-            timestamp: {}
+            timestamp: '2025-01-01T00:00:00Z'
             units: 1
-          - amount: -0.06356
+          - amount: -0.006356
             currency: DIEM
             inferenceDetails:
               completionTokens: 227
@@ -1354,7 +1356,7 @@ components:
             notes: API Inference
             pricePerUnitUsd: 2.8
             sku: llama-3.3-70b-llm-output-mtoken
-            timestamp: {}
+            timestamp: '2025-01-01T00:00:00Z'
             units: 0.000227
         pagination:
           limit: 1
@@ -2007,6 +2009,7 @@ paths:
                         title: "null"
                       - type: object
                         additionalProperties:
+                          type: object
                           nullable: true
                       - nullable: true
                         title: "null"
@@ -3001,9 +3004,11 @@ paths:
                               anyOf:
                                 - type: number
                                   minimum: 0
-                                - nullable: true
+                                - type: number
+                                  nullable: true
                                   title: "null"
-                                - nullable: true
+                                - type: number
+                                  nullable: true
                                   title: "null"
                               description: USD limit
                               example: 50
@@ -3011,9 +3016,11 @@ paths:
                               anyOf:
                                 - type: number
                                   minimum: 0
-                                - nullable: true
+                                - type: number
+                                  nullable: true
                                   title: "null"
-                                - nullable: true
+                                - type: number
+                                  nullable: true
                                   title: "null"
                               description: Diem limit
                               example: 10
@@ -3021,9 +3028,11 @@ paths:
                               anyOf:
                                 - type: number
                                   minimum: 0
-                                - nullable: true
+                                - type: number
+                                  nullable: true
                                   title: "null"
-                                - nullable: true
+                                - type: number
+                                  nullable: true
                                   title: "null"
                               description: VCU limit (deprecated - use Diem instead)
                               deprecated: true
@@ -4612,7 +4621,7 @@ paths:
                       notes: API Inference
                       pricePerUnitUsd: 0.1
                       sku: venice-sd35-image-unit
-                      timestamp: {}
+                      timestamp: '2025-01-01T00:00:00Z'
                       units: 1
                     - amount: -0.06356
                       currency: DIEM
@@ -4624,7 +4633,7 @@ paths:
                       notes: API Inference
                       pricePerUnitUsd: 2.8
                       sku: llama-3.3-70b-llm-output-mtoken
-                      timestamp: {}
+                      timestamp: '2025-01-01T00:00:00Z'
                       units: 0.000227
                   pagination:
                     limit: 1
