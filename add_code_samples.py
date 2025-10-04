@@ -143,13 +143,19 @@ def add_code_samples(spec_path="venice.openapi.v3.yaml"):
             # --- cURL Sample ---
             curl_lines = [
                 f"curl -X {method.upper()} 'https://api.venice.ai/api/v1{path}' \\",
-                "  -H 'Authorization: Bearer YOUR_API_KEY'"
             ]
+            
             if method.lower() in ['post', 'put', 'patch']:
+                # For methods with request body, add backslash after Authorization
+                curl_lines.append("  -H 'Authorization: Bearer YOUR_API_KEY' \\")
                 curl_lines.extend([
                     "  -H 'Content-Type: application/json' \\",
                     "  -d '{}'"
                 ])
+            else:
+                # For GET/DELETE/etc., Authorization is the last line (no backslash)
+                curl_lines.append("  -H 'Authorization: Bearer YOUR_API_KEY'")
+            
             curl_sample = '\n'.join(curl_lines)
 
             # --- Python Sample ---
@@ -171,16 +177,20 @@ def add_code_samples(spec_path="venice.openapi.v3.yaml"):
                 f"const response = await fetch('https://api.venice.ai/api/v1{path}', {{",
                 f"  method: '{method.upper()}',",
                 "  headers: {",
-                "    'Authorization': 'Bearer YOUR_API_KEY'",
             ]
+            
+            # Add Authorization header with comma only if there are more headers
             if method.lower() in ['post', 'put', 'patch']:
+                js_lines.append("    'Authorization': 'Bearer YOUR_API_KEY',")
                 js_lines.extend([
                     "    'Content-Type': 'application/json'",
                     "  },",
                     "  body: JSON.stringify({})"
                 ])
             else:
-                 js_lines.append("  }")
+                js_lines.append("    'Authorization': 'Bearer YOUR_API_KEY'")
+                js_lines.append("  }")
+            
             js_lines.extend([
                 "});",
                 "const data = await response.json();",
