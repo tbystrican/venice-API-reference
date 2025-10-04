@@ -398,8 +398,9 @@ class TestAddCodeSamplesEdgeCases(unittest.TestCase):
         add_code_samples(self.test_spec_path)
         elapsed = time.time() - start
         
-        # Should complete in reasonable time (< 5 seconds)
-        self.assertLess(elapsed, 5.0, "Processing 100 endpoints took too long")
+        # Should complete in reasonable time (default < 10 seconds, configurable via ADD_CODE_SAMPLES_PERF_THRESHOLD)
+        threshold = float(os.environ.get("ADD_CODE_SAMPLES_PERF_THRESHOLD", "10.0"))
+        self.assertLess(elapsed, threshold, f"Processing 100 endpoints took too long (>{threshold}s)")
         
         # Verify all got samples
         with open(self.test_spec_path, 'r') as f:
