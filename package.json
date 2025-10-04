@@ -1,0 +1,30 @@
+{
+  "name": "venice-api-swagger",
+  "version": "1.0.0",
+  "description": "OpenAPI specification for Venice.ai API",
+  "main": "index.js",
+  "scripts": {
+    "test": "python3 test_openapi_spec.py",
+    "test:preview-bug": "python3 test_preview_tag_bug.py",
+    "lint": "bash ./lint.sh",
+    "lint:api": "bash ./lint.sh",
+    "lint:api:spectral": "spectral lint venice.openapi.v3.yaml",
+    "lint:api:redocly": "redocly lint venice.openapi.v3.yaml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fayeblade1488/Venice_api_swagger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fayeblade1488/Venice_api_swagger/issues"
+  },
+  "homepage": "https://github.com/Fayeblade1488/Venice_api_swagger#readme",
+  "devDependencies": {
+    "@redocly/cli": "1.17.0",
+    "@stoplight/spectral-cli": "6.11.0"
+  },
+  "type": "commonjs"
+}
