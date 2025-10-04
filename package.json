@@ -6,6 +6,7 @@
   "scripts": {
     "test": "python3 test_openapi_spec.py",
     "test:preview-bug": "python3 test_preview_tag_bug.py",
+    "lint": "bash ./lint.sh",
     "lint:api": "bash ./lint.sh",
     "lint:api:spectral": "spectral lint venice.openapi.v3.yaml",
     "lint:api:redocly": "redocly lint venice.openapi.v3.yaml"

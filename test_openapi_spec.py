@@ -329,6 +329,49 @@ class TestOpenAPISpec:
             
         print(f"✓ All {len(used_tags)} used tags are properly defined")
         return True
+
+    def test_documentation_completeness(self) -> bool:
+        """
+        Test that operations and schema properties are fully documented.
+        
+        Validates that:
+        - Each operation has a 'summary' and 'description'.
+        - Each schema property has a 'description'.
+        
+        Returns:
+            bool: True if documentation is complete, False otherwise
+        """
+        if not self.spec:
+            self.load_spec()
+            
+        all_valid = True
+        
+        # Check operations for summary and description
+        paths = self.spec.get('paths', {})
+        for path, operations in paths.items():
+            if not isinstance(operations, dict):
+                continue
+            for method, operation in operations.items():
+                if method.lower() in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head']:
+                    if not operation.get('summary'):
+                        print(f"✗ Operation {method.upper()} {path} missing 'summary'")
+                        all_valid = False
+                    if not operation.get('description'):
+                        print(f"✗ Operation {method.upper()} {path} missing 'description'")
+                        all_valid = False
+
+        # Check schema properties for description
+        schemas = self.spec.get('components', {}).get('schemas', {})
+        for schema_name, schema_def in schemas.items():
+            if 'properties' in schema_def and isinstance(schema_def['properties'], dict):
+                for prop_name, prop_def in schema_def['properties'].items():
+                    if isinstance(prop_def, dict) and not prop_def.get('description'):
+                        print(f"✗ Property '{prop_name}' in schema '{schema_name}' missing 'description'")
+                        all_valid = False
+
+        if all_valid:
+            print("✓ All operations and schema properties are well-documented.")
+        return all_valid
     
     def test_required_top_level_fields(self) -> bool:
         """
@@ -382,6 +425,7 @@ class TestOpenAPISpec:
             ("Paths Section", self.test_paths_section),
             ("Component Schemas", self.test_components_schemas),
             ("Tag Definitions", self.test_tags_defined),
+            ("Documentation Completeness", self.test_documentation_completeness),
             ("Required Fields", self.test_required_top_level_fields),
         ]
         
