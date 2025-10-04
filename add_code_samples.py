@@ -94,9 +94,8 @@ def add_code_samples(spec_path="venice.openapi.v3.yaml"):
                         Defaults to "venice.openapi.v3.yaml".
     
     Raises:
-        FileNotFoundError: If the specification file doesn't exist at spec_path.
-        yaml.YAMLError: If the file exists but contains invalid YAML syntax.
-        SystemExit: Exits with code 1 if file is not found or YAML is invalid.
+        SystemExit: Exits with code 1 after printing an error message if the specification file
+            is not found or contains invalid YAML syntax.
     
     Side Effects:
         - Modifies the specification file in place by adding x-codeSamples
