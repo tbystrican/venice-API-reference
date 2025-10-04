@@ -34,7 +34,6 @@ import unittest
 import yaml
 import os
 import tempfile
-import subprocess
 from add_code_samples import add_code_samples
 
 
