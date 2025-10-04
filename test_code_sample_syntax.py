@@ -7,16 +7,18 @@ are syntactically valid and can be executed without errors.
 
 Bug Description:
     File: add_code_samples.py
-    Lines: 144-153 (cURL), 170-181 (JavaScript)
+    Affected logic: Code generation for cURL and JavaScript samples
     Issue 1: cURL samples are missing line continuation backslash after
              Authorization header for POST/PUT/PATCH operations
     Issue 2: JavaScript samples are missing comma after Authorization
              header in the headers object
-    Impact: Generated code samples cannot be executed by users
+    Impact: Generated code samples for POST/PUT/PATCH operations have syntax errors:
+             - cURL samples cannot be executed due to missing line continuation
+             - JavaScript samples cannot be parsed due to invalid object literal syntax
 
 Fix Strategy:
-    1. Add trailing backslash to Authorization header line in cURL (line 146)
-    2. Add trailing comma to Authorization header line in JavaScript (line 174)
+    1. Ensure a trailing backslash is added to the Authorization header line in cURL samples for POST/PUT/PATCH.
+    2. Ensure a trailing comma is added to the Authorization header line in JavaScript samples for POST/PUT/PATCH.
 
 Test Approach:
     This test generates code samples for POST/PUT/PATCH operations and
